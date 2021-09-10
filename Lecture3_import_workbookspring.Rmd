@@ -1,0 +1,137 @@
+---
+title: "Lecture 3 Data import"
+author: "Fang Fang"
+date: "2/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+### Tips:
+
+1) Only put your script within each code chunk.
+2) Your answers will appear right beneath the code chunk. 
+2) Once you finished all the questsion, please knit the rmd file. You will have a HTML file generated automatically under the current working directory. 
+3) Please do not modify the orginial texts to avoid confusions. 
+
+### Let's start. 
+In this workbook, we will explore data import and export.    
+
+Let's install these packages:
+- foreign
+- tidyverse
+- labelled
+
+Then call the library below. 
+
+```{r}
+library(foreign)
+library(tidyverse)
+library(labelled)
+```
+
+### Collect the SPSS dataset 
+
+Remeber to create a new project before you start. 
+Let's try to dowload the data using the URL. 
+First you need to examine your working directory. Create a new sub-folder called data if needed. 
+Try getwd()
+Let's try to download a zip file from National Household Travel Survey. 
+Put it under this data sub-folder. Your can name your output file as spss_NHTS.zip. 
+Try the function called download.file()
+Record the date information accordingly. 
+Go back to your folder to check it out. 
+```{r}
+getwd()
+fileURL <- "https://nhts.ornl.gov/assets/2016/download/Spss.zip"
+#Finish the code below
+download.file()
+
+date_dl <- date() 
+```
+
+
+### Import SPSS data and export it out. 
+Extract the file called hhpub.sav from your zip file. Again our data is derived from National Household Travel Survey (https://nhts.ornl.gov/). This web is conducted by the Federal Highway Administration (FHWA), and it is the authoritative source on the travel behavior of the American public. It is the only source, and quite popular source of data that allows us to analyze trends in personal and household travel by time. 
+
+The hhpub.sav is a SPSS supported file. No worries if you have no experiences in SPSS. Let's try to import it in R, and export it out as a csv file later. Import the sav file and name it travel
+
+```{r}
+# Please modify the syntax below to import your .sav file. 
+library(haven)
+travel <- read_sav()
+
+
+```
+How many rows and columns does this data (travel) have? Put your code below. 
+```{r}
+
+```
+
+Briefly examine the columns. Here is the more information.
+https://nhts.ornl.gov/assets/NHTS2017_UsersGuide_04232019_1.pdf
+
+```{r}
+# Let's try to examine the class for each column. Try sapply!
+
+
+```
+
+
+Sometimes, the codes for data are provided in a separate code book file and you have to apply labels to the data yourself. 
+Check out the code book here. https://nhts.ornl.gov/assets/codebook_v1.1.pdf
+
+Let'e try to apply labels
+For column Urbanisize, 
+01=50,000 - 199,999 
+02=200,000 - 499,999 
+03=500,000 - 999,999 
+04=1 million or more without heavy rail 
+05=1 million or more with heavy rail
+06=Not in an urbanized area 
+
+You will use function called factor, to created a new factor variable, and assign it to the existing column, to replace the codes. 
+
+```{r}
+# Now you will assign a new factor to the column called Urbanisize
+new_factor <- factor(travel$urbansize, labels = c("<200000", "200,000 - 499,999", "500,000 - 999,999","1 million or more without heavy rail", "1 million or more with heavy rail ","Not in an urbanized area"))
+
+# Try to assign this new_factor to your dataset
+travel$urbansize <- new_factor
+```
+
+
+Let's try to extract records only for travel on weekend!
+Export your result to a new csv file. Name it weekend_sub.csv
+Note you should already have a output folder. 
+Hint: based on the code book, https://nhts.ornl.gov/assets/codebook_v1.1.pdf
+01=Sunday, 07=Saturday. 
+```{r}
+# Use the column called travday to subset the dataset
+weekend <- travel[]
+
+# Export weekend out as a csv. Modify the syntax below if needed. 
+write_csv(weekend, "output/weekend_sub.csv)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
