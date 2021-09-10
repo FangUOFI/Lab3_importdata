@@ -148,6 +148,7 @@ water$`Beach Name` <- factor(water$`Beach Name`)
 
 Then use one of the following function: tapply/sapply to calculate the average water temperature for each beach (based on the Beach Name column). Which beach has the highest avg. water temperature? 
 
+Answer:
 
 
 
